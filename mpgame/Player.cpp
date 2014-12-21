@@ -5381,9 +5381,9 @@ idDict *idPlayer::FindInventoryItem( const char *name ) {
 			}
 		}
 	}
-	if (buffed = 0){ // This is, aj269-->
-		//drop item
-	} // --> Unneeded, aj260
+	 // This is, aj269-->
+	// wfm5 changed
+	// --> Unneeded, aj260
 	return NULL;
 }
 
