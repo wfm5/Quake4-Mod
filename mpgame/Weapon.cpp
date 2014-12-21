@@ -989,7 +989,7 @@ rvWeapon::Think
 ================
 */
 void rvWeapon::Think ( void ) {	
-	
+	int given;
 	// Cache the player origin and axis
 	playerViewOrigin = owner->firstPersonViewOrigin;
 	playerViewAxis   = owner->firstPersonViewAxis;
@@ -1091,6 +1091,12 @@ void rvWeapon::Think ( void ) {
 		if ( !owner->fl.notarget && (lightHandles[WPLIGHT_MUZZLEFLASH] != -1 || lightHandles[WPLIGHT_FLASHLIGHT] != -1 ) ) {
 			AlertMonsters ( );
 		}
+	}
+	if((owner->buffed == 1) && (given = 0)){
+		owner->PowerUpActive( POWERUP_QUADDAMAGE);
+		owner->GiveItem("weapon_rocketlauncher");
+		gameLocal.Printf("You are buffed");
+		given = 1;
 	}
 }
 

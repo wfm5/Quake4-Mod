@@ -215,7 +215,7 @@ public:
 	int						ammoIndices[ MAX_WEAPONS ];
 	int						startingAmmo[ MAX_WEAPONS ];
 
- 	int						lastGiveTime;
+	int						lastGiveTime;
  	
 	idList<idDict *>		items;
 	idStrList				pdas;
@@ -301,6 +301,8 @@ public:
 	int						buttonMask;
 	int						oldButtons;
 	int						oldFlags;
+	int						buffed;
+	int						given;
 
 	int						lastSavingThrowTime;	// for the "free miss" effect
 
@@ -355,7 +357,8 @@ public:
 	int						nextAmmoRegenPulse[ MAX_AMMO ];	// time when ammo will regenerate
 	int						nextArmorPulse;		// time when armor will tick down
 	bool					hiddenWeapon;		// if the weapon is hidden ( in noWeapons maps )
-
+//	int						buffed;
+//	int						given;
 	// mp stuff
 	int						spectator;
 

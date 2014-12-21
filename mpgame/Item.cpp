@@ -636,6 +636,10 @@ bool idItem::Pickup( idPlayer *player ) {
 	//dropped weapon?
 	bool dropped = spawnArgs.GetBool( "dropped" );
 
+		if(gameLocal.IsMultiplayer() && player->buffed == 0){
+			return false; 
+		}
+
 	if ( gameLocal.isMultiplayer && !dropped && spawnArgs.FindKey( "weaponclass" ) 
 		&& gameLocal.IsWeaponsStayOn() && gameLocal.time > player->lastPickupTime + 1000 ) {
 		
@@ -686,7 +690,7 @@ bool idItem::Pickup( idPlayer *player ) {
 	if ( gameLocal.IsMultiplayer() ) {
 		if ( !dropped )	{
 			if ( spawnArgs.FindKey( "weaponclass" ) ) { 
-				if ( gameLocal.IsWeaponsStayOn() ) {
+				if ( gameLocal.IsWeaponsStayOn()) {
 					return true;
 				}
 			}

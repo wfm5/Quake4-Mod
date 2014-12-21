@@ -7,7 +7,7 @@
 #pragma hdrstop
 
 #include "Game_local.h"
-
+int first;
 idCVar g_spectatorChat( "g_spectatorChat", "0", CVAR_GAME | CVAR_ARCHIVE | CVAR_BOOL, "let spectators talk to everyone during game" );
 
 const char *idMultiplayerGame::MPGuis[] = {
@@ -310,7 +310,7 @@ idMultiplayerGame::SpawnPlayer
 ================
 */
 void idMultiplayerGame::SpawnPlayer( int clientNum ) {
-
+	int EqWep;
 	TIME_THIS_SCOPE( __FUNCLINE__);
 
 	idPlayer *p = static_cast< idPlayer * >( gameLocal.entities[ clientNum ] );
@@ -332,7 +332,9 @@ void idMultiplayerGame::SpawnPlayer( int clientNum ) {
 	if ( p->IsLocalClient() && gameLocal.GetLocalPlayer() ) {
 		tourneyGUI.SetupTourneyGUI( gameLocal.GetLocalPlayer()->mphud, scoreBoard );
 	}
-
+	//gameLocal.Printf("ur EQ is 1 \n");
+	EqWep = 1;
+	//if (player->buff == )
 	lastVOAnnounce = 0;
 }
 
@@ -1609,7 +1611,7 @@ bool idMultiplayerGame::EnoughClientsToPlay() {
 
 /*
 ================
-idMultiplayerGame::AllPlayersReady
+idMultiplayerGame::AllPlayersReady Assign Buff
 ================
 */
 bool idMultiplayerGame::AllPlayersReady( idStr* reason ) {
@@ -1621,8 +1623,16 @@ bool idMultiplayerGame::AllPlayersReady( idStr* reason ) {
 
 	notReady = false;
 	
+	
 	minClients = Max( 2, gameLocal.serverInfo.GetInt( "si_minPlayers" ) );
 	numClients = NumActualClients( false, &team[ 0 ] );
+	if ((numClients == 1) && (gameLocal.GetLocalPlayer()->given == 0) ){
+
+		gameLocal.GetLocalPlayer()->buffed = 1; // comment this line to act as a none buffed player
+		gameLocal.GetLocalPlayer()->given = 1;
+		gameLocal.Printf("you are buffed ready \n");
+		
+	}
 	if ( numClients < minClients ) { 
 		if( reason ) {
 			// stupid english plurals
@@ -1809,6 +1819,8 @@ void idMultiplayerGame::PlayerDeath( idPlayer *dead, idPlayer *killer, int metho
 			} else {
 				// mark a kill
 				AddPlayerScore( killer, 1 );
+				killer->buffed = 1; //steals buff
+				dead->buffed = 0; //loses it
 			}
 			
 			// additional CTF points
@@ -9088,7 +9100,7 @@ int idMultiplayerGame::NumberOfPlayersOnTeam( int team )
 
 /*
 ================
-idMultiplayerGame::NumberOfAlivePlayersOnTeam
+idMultiplayerGame::NumberOfAlivePlayersOnTeam last man standing
 ================
 */
 int idMultiplayerGame::NumberOfAlivePlayersOnTeam( int team )

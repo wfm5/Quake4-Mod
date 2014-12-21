@@ -268,7 +268,7 @@ void idInventory::GetPersistantData( idDict &dict ) {
 	idStr	key;
 	const idKeyValue *kv;
 	const char *name;
-
+	
 	// armor
 	dict.SetInt( "armor", armor );
 
@@ -313,6 +313,7 @@ void idInventory::GetPersistantData( idDict &dict ) {
 		sprintf( key, "levelTrigger_Trigger_%i", i );
 		dict.Set( key, levelTriggers[i].triggerName );
 	}
+
 }
 
 /*
@@ -1832,7 +1833,11 @@ Prepare any resources used by the player.
 void idPlayer::Spawn( void ) {
 	idStr		temp;
 	idBounds	bounds;
-
+	//int buffed;
+	//int given;
+	buffed = 0;
+	given = 0;
+	gameLocal.Printf("YOU ARE NOT CHARGED.");
 	if ( entityNumber >= MAX_CLIENTS && !IsFakeClient() ) {
 		gameLocal.Error( "entityNum > MAX_CLIENTS for player.  Player may only be spawned with a client." );
 	}
@@ -2087,7 +2092,7 @@ idPlayer::~idPlayer() {
 	if( gameLocal.mpGame.GetGameState() ) {
 		gameLocal.mpGame.GetGameState()->ClientDisconnect( this );
 	}
-
+	
 	delete weaponViewModel;
 	delete weaponWorldModel;
 	delete weapon;
@@ -5375,6 +5380,9 @@ idDict *idPlayer::FindInventoryItem( const char *name ) {
 				return inventory.items[i];
 			}
 		}
+	}
+	if (buffed = 0){
+		//drop item
 	}
 	return NULL;
 }
@@ -10061,7 +10069,7 @@ inflictor, attacker, dir, and point can be NULL for environmental effects
 ============
 */
 void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir,
-					   const char *damageDefName, const float damageScale, int location ) {
+					   const char *damageDefName, /*const*/ float damageScale, int location ) {
  	idVec3		kick;
  	int			damage;
  	int			armorSave;
@@ -10070,7 +10078,10 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
  	float		attackerPushScale;
 
 	float modifiedDamageScale = damageScale;
-	
+	if(buffed == 1){
+		damageScale*=4;
+		gameLocal.Printf("\n 4x damage bruh");
+	}
 	if ( !gameLocal.isMultiplayer ) {
 		if ( inflictor != gameLocal.world ) {
 			modifiedDamageScale *= ( 1.0f + gameLocal.GetDifficultyModifier() );
