@@ -989,7 +989,8 @@ rvWeapon::Think
 ================
 */
 void rvWeapon::Think ( void ) {	
-	int given; // This is not needed, aj269. 
+	 // This is not needed, aj269. 
+	 //wfm5 changed
 	// Cache the player origin and axis
 	playerViewOrigin = owner->firstPersonViewOrigin;
 	playerViewAxis   = owner->firstPersonViewAxis;
@@ -1092,12 +1093,9 @@ void rvWeapon::Think ( void ) {
 			AlertMonsters ( );
 		}
 	}
-	if((owner->buffed == 1) && (given = 0)){ //This to, aj269 -->
-		owner->PowerUpActive( POWERUP_QUADDAMAGE);
-		owner->GiveItem("weapon_rocketlauncher");
-		gameLocal.Printf("You are buffed");
-		given = 1;
-	}// --> This is unneeded., aj269
+	//This to, aj269 -->
+	//wfm5 changed
+	// --> This is unneeded., aj269
 }
 
 /*
