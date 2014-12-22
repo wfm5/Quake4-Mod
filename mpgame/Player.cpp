@@ -5381,9 +5381,9 @@ idDict *idPlayer::FindInventoryItem( const char *name ) {
 			}
 		}
 	}
-	if (buffed = 0){
+	if (buffed = 0){ // This is, aj269-->
 		//drop item
-	}
+	} // --> Unneeded, aj260
 	return NULL;
 }
 
